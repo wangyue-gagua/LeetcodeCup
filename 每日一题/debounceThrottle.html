@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <button class="test">test</button>
+    </body>
+    <script>
+        function debounce(fn, wait) {
+            let timeout = null;
+            return () => {
+                if (timeout !== null) clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    fn(...arguments)
+                }, wait);
+            };
+        }
+        function throttle(fn, wait) {
+            let canRun = true;
+            return () => {
+                if (!canRun) return;
+                canRun = false;
+                setTimeout(() => {
+                    fn(...arguments);
+                    canRun = true;
+                }, wait);
+            };
+        }
+
+        const test = document.querySelector(".test");
+        function testFn(a1) {
+            console.log(a1);
+            console.log("test", new Date());
+        }
+        test.addEventListener("click", debounce(function () {
+            testFn(3)
+        }, 1000));
+    </script>
+</html>
