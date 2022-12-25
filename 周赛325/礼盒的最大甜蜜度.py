@@ -26,12 +26,38 @@
 输出：0
 解释：从现有的糖果中任选两类糖果，甜蜜度都会是 0 。 """
 
+import bisect
 from typing import List
 
 
 class Solution:
     def maximumTastiness(self, price: List[int], k: int) -> int:
         price.sort()
-        return sum(price[-k:]) - sum(price[:len(price) - k])
+        print(price)
+        # 将最大值到最小值的区间获取k个点
+        if k == 2:
+            return price[-1] - price[0]
+        else:
+            interval = (price[-1] - price[0]) / (k - 1)
+            # 从最小值开始，每隔interval取一个点
+            # 寻找数组中最接近该点的值，并计算与上一个点的差值
+            last = price[0]
+            res = price[-1] - price[0]
+            for _ in range(1, k - 1):
+                index = bisect.bisect_left(price, last + interval)
+                if index == 1:
+                    res = min(res, price[index] - last)
+                else:
+                    if price[index] - (last + interval) > (
+                            last + interval) - price[index - 1]:
+                        index -= 1
+                    print(res, index, last)
+                    res = min(res, price[index] - last, price[-1] - price[index])
+                last = price[index]
+            return res
 
-print(Solution().maximumTastiness([13,5,1,8,21,2], 3))
+
+# print(Solution().maximumTastiness([13, 5, 1, 8, 21, 2], 3))
+# print(Solution().maximumTastiness([1,3,1], 2))
+# print(Solution().maximumTastiness([7,7,7,7], 2))
+print(Solution().maximumTastiness([34,116,83,15,150,56,69,42,26], 6))
