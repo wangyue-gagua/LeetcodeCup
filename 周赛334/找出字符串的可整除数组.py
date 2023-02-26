@@ -53,4 +53,23 @@ class Solution:
         return res
 
 
-print(Solution().divisibilityArray("998244353", 3))
+# print(Solution().divisibilityArray("998244353", 3))
+
+# print(Solution().divisibilityArray("100", 10))
+
+
+def find_divisible_array(word: str, m: int) -> List[int]:
+    n = len(word)
+    mod = [0] * n
+    mod[0] = int(word[0]) % m
+    for i in range(1, n):
+        mod[i] = (mod[i - 1] * 10 + int(word[i])) % m
+    divisible = [0] * n
+    for i in range(n):
+        if mod[i] == 0:
+            divisible[i] = 1
+    return divisible
+
+
+print(find_divisible_array("998244353", 3))
+print(find_divisible_array("100", 10))
