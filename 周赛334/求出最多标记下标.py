@@ -35,7 +35,7 @@ class Solution:
         n = len(nums)
         marked = [False] * n
         count = 0
-        
+
         # 对于每个值num，二分搜索找到第一个 >= 2 * num的值的下标
         twoFoldIndex: Dict[int, int] = {}
 
@@ -54,16 +54,16 @@ class Solution:
                 index = binary_search(nums, 2 * nums[i])
                 # 判断是否找到了
                 if index < n and nums[index] >= 2 * nums[i]:
-                    twoFoldIndex[i] = index
+                    twoFoldIndex[nums[i]] = index
                 else:
-                    twoFoldIndex[i] = -1
+                    twoFoldIndex[nums[i]] = -1
 
         # 倒序查找，如果twoFoldIndex中存在，则标记
         print(nums)
         print(twoFoldIndex)
-        for i in range(n - 1, -1, -1):
-            if twoFoldIndex[i] != -1:
-                initIndex = twoFoldIndex[i]
+        for i in range((n - 1) // 2, -1, -1):
+            if twoFoldIndex[nums[i]] != -1:
+                initIndex = twoFoldIndex[nums[i]]
                 while initIndex < n and marked[initIndex]:
                     initIndex += 1
                 if initIndex < n:
@@ -79,7 +79,7 @@ def max_num_of_indices(nums: List[int]) -> int:
     n = len(nums)
     marked = [False] * n
     count = 0
-    
+
     # 对于每个值num，二分搜索找到第一个 >= 2 * num的值的下标
     twoFoldIndex: Dict[int, int] = {}
 
@@ -117,10 +117,16 @@ def max_num_of_indices(nums: List[int]) -> int:
     return count
 
 
-
 # print(max_num_of_indices([3, 5, 2, 4]))
 # print(max_num_of_indices([9, 2, 5, 4]))
 # print(max_num_of_indices([7, 6, 8]))
 # print(Solution().maxNumOfMarkedIndices([3, 5, 2, 4]))
 
-print(Solution().maxNumOfMarkedIndices([42,83,48,10,24,55,9,100,10,17,17,99,51,32,16,98,99,31,28,68,71,14,64,29,15,40]))
+print(Solution().maxNumOfMarkedIndices([
+    66, 53, 92, 87, 23, 29, 53, 83, 63, 63, 25, 25, 72, 47, 34, 24, 63, 8, 43,
+    100, 80, 17, 72, 69, 7, 7, 32, 80, 8, 58, 70, 81, 79, 67, 66, 24, 64, 66,
+    9, 67, 33, 11, 62, 86, 5, 84, 78, 85, 69, 3, 92, 14, 67, 90, 31, 40, 54,
+    63, 99, 88, 28, 100, 5, 72, 89, 60, 90, 71, 97, 16, 7, 60, 6, 57, 73, 84,
+    17, 8, 77, 60, 7, 74, 74, 24, 52, 43, 94, 48, 9, 99, 84, 89, 96, 40, 15,
+    29, 80, 19
+]))
